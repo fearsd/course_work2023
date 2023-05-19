@@ -1,0 +1,38 @@
+@using course_work2023.Data;
+
+<div>
+    <p>@((MarkupString)outputEquation)</p>
+    <input type="number" class="form-control" style="width: 10%" placeholder="Введите a" @bind="a">
+    <input type="number" class="form-control" style="width: 10%" placeholder="Введите b" @bind="b">
+    <input type="number" class="form-control" style="width: 10%" placeholder="Введите c" @bind="c">
+    <button type="button" class="btn btn-primary" @onclick="ButtonClick">Вычислить</button>
+    <p>@((MarkupString)answer)</p>
+</div>
+
+@code {
+    private string a = "", b = "", c = "";
+    private string outputEquation = "";
+    private string answer = "";
+    private void ButtonClick() {
+        if (a == "") {
+            outputEquation = "Введите a! Возможно вы ввели '-', попробуйте ввести '-1'";
+            answer = "";
+            HistoryManager.WriteMessage(a, b, c, outputEquation, isA: true);
+        }
+        else {
+            outputEquation = $"{normalizeNumber(a, true)}x&sup2";
+            if (b != "") outputEquation += $"{normalizeNumber(b, true)}x";
+            if (c != "") outputEquation += $"{normalizeNumber(c)}";
+            outputEquation += "=0";
+            Calculator calc = new Calculator(a, b, c);
+            answer = calc.calcAnswer();
+            HistoryManager.WriteMessage(a, b, c, answer, mess2: outputEquation, isD: true);
+        }
+    }
+    private string normalizeNumber(string number, bool isX = false) {
+        if (number=="-1" && isX) number = "-";
+        else if (number=="1" && isX) number = "";
+        if (!number.StartsWith("-") && number != "") number = "+" + number;
+        return number;
+    }
+}

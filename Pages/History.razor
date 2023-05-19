@@ -1,0 +1,12 @@
+@page "/history"
+@using course_work2023.Data
+
+<PageTitle>История</PageTitle>
+
+<h1>История (протокол работы калькулятора)</h1>
+
+<p>@((MarkupString)messages)</p>
+
+@code {
+    private string messages = HistoryManager.ReadMessages();
+}
