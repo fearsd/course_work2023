@@ -22,7 +22,7 @@
         else {
             outputEquation = $"{normalizeNumber(a, true)}x&sup2";
             if (b != "") outputEquation += $"{normalizeNumber(b, true)}x";
-            if (c != "") outputEquation += $"{normalizeNumber(c)}";
+            if (c != "") outputEquation += normalizeNumber(c);
             outputEquation += "=0";
             Calculator calc = new Calculator(a, b, c);
             answer = calc.calcAnswer();
